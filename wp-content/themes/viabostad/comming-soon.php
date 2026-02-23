@@ -23,6 +23,7 @@ get_header();
       </section>
   </main>
 
+  <!-- static page -->
 
       <?php endwhile; 
     endif; 
