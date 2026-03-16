@@ -8,83 +8,7 @@ add_action( 'init', function () {
 function property_listing_callback() {
     ob_start();
     ?>
-
-  <style>
-	.woocommerce-ordering,
-	.woocommerce-result-count{
-		display: none;
-	}
-    .map-popup {
-    width: 220px;
-}
-.map_wrapper {
-    position: sticky;
-    top: calc(var(--headerHeight) - 10px);
-}
- 
-#property-map {
-    width: 100%;
-    height: calc(100vh - 110px);
-    border-radius: 12px;
-}
-.map-popup h4 {
-    margin: 0 0 6px;
-    font-size: 16px;
-}
-
-
-
-.map-popup .map-btn {
-    display: inline-block;
-    background: #1e88e5;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.custom-marker {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    cursor: pointer;
-    z-index: 1;
-    transition: transform 0.2s ease;
-}
-
-.custom-marker:hover {
-    transform: translate(-50%, -105%) scale(1.05);
-    z-index: 999;
-}
-
-.marker-card {
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    padding: 4px;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-    overflow: hidden;
-}
-
-.marker-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.marker-dot {
-    width: 10px;
-    height: 10px;
-    background: #2ea8ff;
-    border-radius: 50%;
-    margin: 4px auto 0;
-}
-
-  </style>
-
-
+    
 	<?php 
         $dummyImg =  get_stylesheet_directory_uri() .'/assets/images/contact-banner.webp';
         $thumb_id = get_post_thumbnail_id();
@@ -113,499 +37,168 @@ function property_listing_callback() {
               <div class="col-lg-8 col-xl-7">
 				<div class="left_wrapper">
 					<div class="sec_head">
-                        <form id="filter-property">
-                      <div class="shop_filter">
-                        <div class="find_property_wrapper">
-                          <div class="row align-items-center gy-md-4 gy-3">
-                            <div class="col-md-6">
-                              <div class="form_wrapper">
-                                <div class="input_wrap">
-                                  <div class="field">
-                                    <input
-                                      type="text"
-                                      placeholder="Search for a place"
-                                      name="property-search"
-                                    />
-                                  </div>
-                                  <a
-                                    href="javascript:void(0)"
-                                    class="filter-open-btn"
-                                    ><img
-                                      decoding="async"
-                                      src="https://viabostad.elvirainfotech.live/wp-content/themes/viabostad/assets/images/filter-btn-blue.svg"
-                                      alt="filter-btn-blue"
-                                      width="62"
-                                      height="47"
-                                  /></a>
-                                </div>
-                                <div class="filter_fields listing_page_filter">
-                                  <div class="find_property_wrapper">
-                                    <div class="form_wrap">
-                                      <form>
-                                        <div class="field search">
-                                          <label>
-                                            Area
-                                            <input
-                                              type="text"
-                                              placeholder="Enter area or address"
-                                            />
-                                          </label>
-                                        </div>
-                                        <div class="field select">
-                                          <label>
-                                            Expand area with
-                                            <select class="form-select">
-                                              <option>+0 km</option>
-                                              <option>+1 km</option>
-                                              <option>+2 km</option>
-                                            </select>
-                                          </label>
-                                        </div>
-                                        <div class="field checkboxes_wrapper">
-                                          <p>Housing type</p>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              All types
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Villas
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Pair/Chain/Townhouse
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Apartments
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Holiday home
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Plots
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Farms/Forests
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <input
-                                              type="checkbox"
-                                              name="house_type"
-                                            />
-                                            <div class="field_text">
-                                              <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
-                                              Other
-                                            </div>
-                                          </label>
-                                        </div>
-                                        <div class="field">
-                                          <p>Room</p>
-                                          <div class="field_group_2_col">
-                                            <select class="form-select">
-                                              <option>My</option>
-                                              <option>1 room</option>
-                                              <option>1.5 room</option>
-                                              <option>2 room</option>
-                                            </select>
-                                            -
-                                            <select class="form-select">
-                                              <option>Max</option>
-                                              <option>1 room</option>
-                                              <option>1.5 room</option>
-                                              <option>2 room</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="field">
-                                          <p>Living area</p>
-                                          <div class="field_group_2_col">
-                                            <select class="form-select">
-                                              <option>My</option>
-                                              <option>20 m²</option>
-                                              <option>25 m²</option>
-                                              <option>30 m²</option>
-                                            </select>
-                                            -
-                                            <select class="form-select">
-                                              <option>Max</option>
-                                              <option>20 m²</option>
-                                              <option>25 m²</option>
-                                              <option>30 m²</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="field">
-                                          <p>Final price</p>
-                                          <div class="field_group_2_col">
-                                            <select class="form-select">
-                                              <option>My</option>
-                                              <option>100,000 SEK</option>
-                                              <option>200,000 SEK</option>
-                                              <option>300,000 SEK</option>
-                                            </select>
-                                            -
-                                            <select class="form-select">
-                                              <option>Max</option>
-                                              <option>100,000 SEK</option>
-                                              <option>200,000 SEK</option>
-                                              <option>300,000 SEK</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <hr>
-                                        <div class="field checkboxes_wrapper without_icon square">
-                                          <p>Properties</p>
-                                            <label>
-                                              <input type="checkbox" name="sold_few_months">
-                                              <div class="field_text">
-                                                <div class="circle"></div>
-                                              Balcony/Patio/Terrace
-                                              </div>
-                                            </label>
-                                            <label>
-                                              <input type="checkbox" name="sold_few_months">
-                                              <div class="field_text">
-                                                <div class="circle"></div>
-                                              Elevator
-                                              </div>
-                                            </label>
-                                        </div>
-                                        <div class="field select">
-                                          <label>
-                                            Floor plan
-                                            <select class="form-select">
-                                              <option>Show All</option>
-                                              <option>Show only ground floor</option>
-                                            </select>
-                                          </label>
-                                        </div>
-                                        <div class="field">
-                                          <label>
-                                            Keyword
-                                            <input
-                                              type="text"
-                                              placeholder="Pool, tiled stoved, etc "
-                                            />
-                                          </label>
-                                        </div>
-                                        <div class="filter_options text-center">
-                                          <button
-                                            type="button"
-                                            class="show_filter_option"
-                                          >
-                                            More search options
-                                            <i class="fas fa-chevron-right"></i>
-                                          </button>
-                                          <div class="filter_options_wrapper">
-                                              <div class="field select">
-                                                <label>
-                                                  New production
-                                                  <select class="form-select">
-                                                    <option>Show new production</option>
-                                                    <option>Show only new production</option>
-                                                    <option>Hide new production</option>
-                                                  </select>
-                                                </label>
-                                              </div>
-                                              <div class="field">
-                                                <p>Year of construction</p>
-                                                <div class="field_group_2_col">
-                                                  <input
-                                                    type="number"
-                                                    placeholder="My"
-                                                  />
-                                                  -
-                                                  <input
-                                                    type="number"
-                                                    placeholder="Max"
-                                                  />
+                        <form id="filter-properties">
+                            <div class="shop_filter">
+                                <div class="find_property_wrapper">
+                                    <div class="row align-items-center gy-md-4 gy-3">
+                                        <div class="col-md-6">
+                                            <div class="form_wrapper">
+                                                <div class="input_wrap">
+                                                    <a href="javascript:void(0)" class="filter-open-btn ">
+                                                    <img decoding="async" src="https://viabostad.elvirainfotech.live/wp-content/themes/viabostad/assets/images/filter-btn-blue.svg" alt="filter-btn-blue" width="62" height="47"/>
+                                                    </a>
                                                 </div>
-                                              </div>
-                                              <hr>
-                                              <div class="field select">
-                                                <label>
-                                                  Maximum fee
-                                                  <select class="form-select">
-                                                    <option>Max</option>
-                                                    <option>0 SEK/month</option>
-                                                    <option>500 SEK/month</option>
-                                                    <option>1000 SEK/month</option>
-                                                  </select>
-                                                </label>
-                                              </div>
-                                              <hr>
-                                              <div class="field checkboxes_wrapper without_icon">
-                                                <p>Days on the Homenet</p>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Show All
+                                                <div class="filter_fields listing_page_filter">
+                                                    <div class="find_property_wrapper">
+                                                    <div class="form_wrap">
+                                                      <div class="field search">
+                                                            <label>
+                                                                Area
+                                                                <input type="text" id="filter_address" name="filter_address" placeholder="Search location..." autocomplete="off">
+                                                            </label>
+                                                                    <input type="hidden" name="acf_map[address]" id="acf_map_address">
+                                                                    <input type="hidden" name="acf_map[lat]" id="acf_map_lat">
+                                                                    <input type="hidden" name="acf_map[lng]" id="acf_map_lng">
+                                                                    <input type="hidden" name="acf_map[zoom]" id="acf_map_zoom" value="14">
+                                                                    <input type="hidden" name="acf_map[name]" id="acf_map_name">
+                                                                    <input type="hidden" name="acf_map[street_number]" id="acf_map_street_number">
+                                                                    <input type="hidden" name="acf_map[street_name]" id="acf_map_street_name">
+                                                                    <input type="hidden" name="acf_map[city]" id="acf_map_city">
+                                                                    <input type="hidden" name="acf_map[state]" id="acf_map_state">
+                                                                    <input type="hidden" name="acf_map[post_code]" id="acf_map_post_code">
+                                                                    <input type="hidden" name="acf_map[country]" id="acf_map_country">
+                                                                    <input type="hidden" name="acf_map[country_short]" id="acf_map_country_short">
+                                                                </div>
+                                                     <div class="field checkboxes_wrapper">
+                                                            <p>Housing type</p>
+                                                                <label>
+                                                                    <input type="checkbox" name="house_type"/>
+                                                                    <div class="field_text">
+                                                                    <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20">
+                                                                    All types
+                                                                    </div>
+                                                                </label>
+                                                                    <?php
+                                                                    $terms = get_terms([
+                                                                        'taxonomy'   => 'property-type',
+                                                                        'hide_empty' => true, // set false if you want empty terms too
+                                                                    ]);
+                                                                    if (!empty($terms) && !is_wp_error($terms)) {?>
+                                                                        <?php foreach ( $terms as $term ) { ?>
+                                                                        <label>
+                                                                        <input type="checkbox" id="<?php echo $term->slug; ?>" name="propertytype[]" value="<?php echo $term->term_id; ?>">
+                                                                            <div class="field_text">
+                                                                            <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20" class='icon'>
+                                                                            <?php echo esc_html($term->name); ?>
+                                                                            </div>
+                                                                        </label>
+                                                                        <?php  } ?> 
+                                                                    <?php } ?>
+                                                                                                
+                                                                </div>
+                                                                <div class="field">
+                                                                <p>Min Room</p>
+                                                                    <?php $rooms_data = get_field('rooms_data', 'option');  ?>
+                                                                
+                                                                
+                                                                    <select class="form-select" name="rooms_min">
+                                                                    <option disabled selected>Select Room</option>
+                                                                    <?php foreach ($rooms_data as $room) { ?>
+                                                                        <option value="<?php echo esc_attr($room['room_number_sin']); ?>" ><?php echo esc_html($room['room_number_sin'] . ($room['room_number_sin'] > 1 ? ' rooms' : ' room')); ?></option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                            
+                                                                </div>
+                                                                <div class="field">
+                                                                <p>Max Room</p>
+                                                                    <?php $rooms_data = get_field('rooms_data', 'option');  ?>
+                                                                
+                                                                
+                                                                    <select class="form-select" name="rooms_max">
+                                                                    <option disabled selected>Select Room</option>
+                                                                    <?php foreach ($rooms_data as $room) { ?>
+                                                                        <option value="<?php echo esc_attr($room['room_number_sin']); ?>" ><?php echo esc_html($room['room_number_sin'] . ($room['room_number_sin'] > 1 ? ' rooms' : ' room')); ?></option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                            
+                                                                </div>
+                                                                <div class="field">
+                                                                <p>Living area</p>
+                                                                <?php $area = get_field('area_sqm' , 'option');  ?>
+                                                                    <select class="form-select" name="area">
+                                                                    <option  disabled selected>Select Living Area</option>
+                                                                    <?php foreach ($area as $area) { ?>
+                                                                        <option value="<?php echo esc_attr($area['area_sin']); ?>" ><?php echo esc_html($area['area_sin']); ?>m<sup>2</sup></option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                                
+                                                                </div>
+                                                                <div class="field">
+                                                                <p>Final price</p>
+                                                                        <?php $price = get_field('minimum_price' , 'option');  ?>
+                                                                    <select class="form-select" name="price">
+                                                                    <option disabled selected>Select Final Price</option>
+                                                                    <?php foreach ($price as $price) { ?>
+                                                                        <option value="<?php echo esc_attr($price['min_price_room']); ?>" ><?php echo esc_html($price['min_price_room'])." ".get_woocommerce_currency(); ?> </option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                                
+                                                                </div>
+                                                                <hr>
+                                                            
+                                                                <div class="field checkboxes_wrapper without_icon square">
+                                                                <p>Sold within</p>
+
+                                                                 <?php
+                                                                    $terms = get_terms([
+                                                                        'taxonomy'   => 'sold-period',
+                                                                        'hide_empty' => true, // set false if you want empty terms too
+                                                                    ]);
+                                                                    if (!empty($terms) && !is_wp_error($terms)) {?>
+                                                                        <?php foreach ( $terms as $term ) { ?>
+                                                                             <label>
+                                                                                <input type="checkbox" name="sold_period[]" value="<?php echo $term->term_id; ?>">
+                                                                                    <div class="field_text">
+                                                                                        <div class="circle"></div>
+                                                                                    <?php echo esc_html($term->name); ?>
+                                                                                    </div>
+                                                                            </label>
+                                                              
+                                                                        <?php  } ?> 
+                                                                    <?php } ?>
+                                                                </div>
+                                                    
+                                                    
+                                                                <div class="field">
+                                                                <label>
+                                                                    Keyword
+                                                                    <input
+                                                                    type="text"
+                                                                    placeholder="Pool, tiled stoved, etc "
+                                                                    name="keyword"
+                                                                    />
+                                                                </label>
+                                                                </div>
+                                                                    
+                                                        
+                                                                <div class="submit_wrapper">
+                                                                <input
+                                                                    type="submit"
+                                                                    value="Find homes for sale"
+                                                                />
+                                                                </div>
+                                                               <input type="hidden" name="action" value="filter_search_property">
+                                                            </div>
+                                                            <button type="button" class="cross"><i class="fas fa-times"></i></button>
+                                                        </div>
+                                                        </div>
                                                     </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Last 24 hours
                                                     </div>
-                                                  </label>
-                                                  <label>
-                                                      <input type="checkbox" name="sold_few_months">
-                                                      <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Maximum 3 days
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Maximum 1 week
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Maximum 2 week
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Maximum 1 month
-                                                    </div>
-                                                  </label>
-                                              </div>
-                                              <hr>
-                                              <div class="field checkboxes_wrapper without_icon">
-                                                <p>Showtime</p>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Show All
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Today
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                      <input type="checkbox" name="sold_few_months">
-                                                      <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Tomorrow
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    This weekend (Sat-Mon)
-                                                    </div>
-                                                  </label>
-                                                  <div class="date_wrapper w-100">
-                                                    <label>
-                                                      <input type="checkbox" name="sold_few_months">
-                                                      <div class="field_text">
-                                                        <div class="circle"></div>
-                                                      Select date
-                                                      </div>
-                                                    </label>
-                                                    <div class="toggle">
-                                                    <div class="field">
-                                                      <label>
-                                                        From
-                                                        <input
-                                                          type="date"
-                                                          placeholder=""
-                                                        />
-                                                      </label>
-                                                    </div>
-                                                    <div class="field">
-                                                      <label>
-                                                        To
-                                                        <input
-                                                          type="date"
-                                                          placeholder=""
-                                                        />
-                                                      </label>
-                                                    </div>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                              <div class="field checkboxes_wrapper without_icon square">
-                                                <p>Removed before viewing</p>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                    Hide deleted before viewing
-                                                    </div>
-                                                  </label>
-                                              </div>
-                                              <hr>
-                                              <div class="field checkboxes_wrapper without_icon square">
-                                                <p>Distance to water</p>
-                                                <div class="field select w-100 mb-1">
-                                                    <label>
-                                                      Minimum number of rooms
-                                                      <select
-                                                        class="form-select w-100"
-                                                      >
-                                                        <option>All</option>
-                                                        <option>Maximum 100 m</option>
-                                                        <option>Maximum 200 m</option>
-                                                        <option>Maximum 500 m</option>
-                                                        <option>Maximum 10 km</option>
-                                                        <option>Maximum 20 km</option>
-                                                      </select>
-                                                    </label>
-                                                  </div>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Only near sea
-                                                    </div>
-                                                  </label>
-                                              </div>
-                                              <hr>
-                                              <div class="field">
-                                                <label>
-                                                  Keyword
-                                                  <input
-                                                    type="number"
-                                                    placeholder="My"
-                                                  />
-                                                </label>
-                                              </div>
-                                              <div class="field">
-                                                <p>Square meter price (SEK/m²)</p>
-                                                <div class="field_group_2_col">
-                                                  <input
-                                                    type="number"
-                                                    placeholder="My"
-                                                  />
-                                                  -
-                                                  <input
-                                                    type="number"
-                                                    placeholder="Max"
-                                                  />
                                                 </div>
-                                                <small>Only available for condominiums</small>
-                                              </div>
-                                              <hr>
-                                              <div class="field checkboxes_wrapper without_icon square">
-                                                <p>Show only</p>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Bidding in progress
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Reduced price
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Increased price
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Executive auction
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <input type="checkbox" name="sold_few_months">
-                                                    <div class="field_text">
-                                                      <div class="circle"></div>
-                                                        Ownership
-                                                    </div>
-                                                  </label>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        <div class="submit_wrapper">
-                                          <input
-                                            type="submit"
-                                            value="Find homes for sale"
-                                          />
-                                        </div>
-                                      </form>
-                                    </div>
-                                    <button type="button" class="cross"><i class="fas fa-times"></i></button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                                                </div>
+                                            </div>
+                                        </form>
                           </div>
-                        </div>
-                      </div>
-                    </form>
-						</div>
 
 						<div id="all_properties">
 
@@ -620,7 +213,7 @@ function property_listing_callback() {
                                 'posts_per_page' => 10,
                                 'paged' => $paged,
                                 'orderby' => 'id',
-                                'order' => 'ASC',
+                                'order' => 'DESC',
                                 ]);
 
                             if ( $product_query->have_posts() ) { ?>
@@ -637,10 +230,10 @@ function property_listing_callback() {
 									$last  = min( $total, $per_page * $current );
 									?>
 
-									<p class="search_result">
+									<!-- <p class="search_result">
 										Showing Newest Results <?php echo esc_html( $first ); ?>–<?php echo esc_html( $last ); ?>
 										of <?php echo esc_html( $total ); ?>
-									</p>
+									</p> -->
 
 							</div>
 					 
@@ -661,6 +254,7 @@ function property_listing_callback() {
                                                             'title' => get_the_title(),
                                                             'lat'   => $location['lat'],
                                                             'lng'   => $location['lng'],
+                                                            'location' => $location['city'].", ". $location['country'],
                                                             'link'  => get_permalink(),
                                                             'price' => get_field('_price'),
                                                             'image' => get_the_post_thumbnail_url()
@@ -722,8 +316,9 @@ function property_listing_callback() {
                                                     <?php endif; ?>
 										
 				</div>
+        </div>
               </div>
-			</div> 
+			
               <div class="col-lg-4 col-xl-5">
                <div class="map_wrapper">
                     <div id="property-map"></div>
@@ -735,10 +330,91 @@ function property_listing_callback() {
       </section>
 
 
-	
+	<script>
+
+
+    jQuery(document).ready(function ($) {
+
+            // INIT GOOGLE AUTOCOMPLETE PROPERLY
+            function initAutocomplete() {
+
+                if (typeof google === 'undefined' || !google.maps.places) {
+                    console.log('Google Places not loaded');
+                    return;
+                }
+
+                const input = document.getElementById('filter_address');
+                if (!input) return;
+
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['geocode'], // show full address suggestions
+                    fields: ['formatted_address', 'geometry', 'address_components']
+                });
+
+                autocomplete.addListener('place_changed', function () {
+
+                    const place = autocomplete.getPlace();
+                    if (!place.geometry) return;
+
+                    // Basic data
+                    $('#acf_map_address').val(place.formatted_address);
+                    $('#acf_map_lat').val(place.geometry.location.lat());
+                    $('#acf_map_lng').val(place.geometry.location.lng());
+                    $('#acf_map_zoom').val(14);
+
+                    // Clear old values first
+                    $('#acf_map_street_number, #acf_map_street_name, #acf_map_city, #acf_map_state, #acf_map_post_code, #acf_map_country').val('');
+
+                    
+                    //console.log('Selected place:', place);
+                    
+                    
+                    // Fill address components
+                    place.address_components.forEach(function(component) {
+
+                        const types = component.types;
+
+                    
+                        if (types.includes('street_number')) {
+                            $('#acf_map_street_number').val(component.long_name);
+                        }
+
+                        if (types.includes('route')) {
+                            $('#acf_map_street_name').val(component.long_name);
+                        }
+
+                        if (types.includes('postal_town')) {
+                            $('#acf_map_city').val(component.long_name);
+                        }
+
+                        if (types.includes('administrative_area_level_1')) {
+                            $('#acf_map_state').val(component.long_name);
+                        }
+
+                        if (types.includes('postal_code')) {
+                            $('#acf_map_post_code').val(component.long_name);
+                        }
+
+                        if (types.includes('country')) {
+                            $('#acf_map_country').val(component.long_name);
+                        }
+
+                    });
+
+                });
+            }
+
+            // Run after window fully loads (important!)
+            jQuery(window).on('load', function () {
+                initAutocomplete();
+            });
+
+    });
+</script>
 
 
    <script>
+
 
         let map;
         let markers = [];
@@ -746,7 +422,7 @@ function property_listing_callback() {
 
         var propertyData = <?php echo json_encode($map_properties); ?>;
 
-        function initPropertyMap() {
+        function initPropertyMap(propertyData) {
 
             const mapContainer = document.getElementById('property-map');
             if (!mapContainer) return;
@@ -756,7 +432,7 @@ function property_listing_callback() {
                 : { lat: 59.3293, lng: 18.0686 };
 
             map = new google.maps.Map(mapContainer, {
-                zoom: 6,
+                zoom: 8,
                 center: defaultCenter,
 
                 // ✅ SAFE light gray modern style
@@ -804,8 +480,9 @@ function property_listing_callback() {
 
                         if (propertyData.length > 1) {
                 map.fitBounds(bounds);
+                
             } else {
-                map.setZoom(12);
+                map.setZoom(14);
             }
         }
 
@@ -828,9 +505,14 @@ function property_listing_callback() {
                 div.addEventListener("click", () => {
                     infoWindow.setContent(`
                         <div class="map-popup">
-                            <img src="${property.image}" width="100%">
-                            <h4>${property.title}</h4>
-                            <p>$${property.price}</p>
+                            <div class="image-wrapper">
+                                <img src="${property.image}" width="100%">
+                            </div>
+                            <div class="descrip-wrapper">
+                                <h4 class="title">${property.title}</h4>
+                                <p class="location">${property.location}</p>
+                                <p class="price">${property.price}</p>
+                            </div>
                         </div>
                     `);
                     infoWindow.setPosition(position);
@@ -853,6 +535,7 @@ function property_listing_callback() {
             };
 
             overlay.setMap(map);
+            markers.push(overlay); 
         }
 
 
@@ -889,130 +572,184 @@ function property_listing_callback() {
         }
 
 
-      jQuery(document).ready(function ($) {
-
-        initPropertyMap();
     
-        let currentFilters = {};
+        jQuery(document).ready(function ($) {
 
-        function getFormValues() {
-            var search   = $('input[name="property-search"]').val().trim();
-            var location = $('select[name="property-location"]').val();
-            var type     = $('select[name="property-type"]').val();
-            var price    = $('input[name="property-price"]').val().trim();
 
-            price = price.replace(/,/g, '');
+                                
+            initPropertyMap(propertyData);
 
-            return {
-                search: search,
-                location: location,
-                type: type,
-                price: price
-            };
-        }
+            let currentPage = 1;
 
-        function load_properties(paged = 1, append = false) {
-
-            var formData = new FormData();
-
-            formData.append('action', 'filter_search_property');
-            formData.append('paged', paged);
-
-            formData.append('property-search', currentFilters.search);
-            formData.append('property-location', currentFilters.location);
-            formData.append('property-type', currentFilters.type);
-            formData.append('property-price', currentFilters.price);
-
-            // ✅ Only show full loader for fresh filter
-            if(!append){
-                $('#all_properties').html('<span class="loader-property"></span>');
-            } else {
-                $('.load-more-btn').text('Loading...');
-            }
-
-            $.ajax({
-                url: '<?php echo admin_url("admin-ajax.php"); ?>',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-
-                    if(append){
-                         var temp = $('<div>').html(response);
-
-                        var newItems  = temp.find('.property-slider').html();
-                        var newButton = temp.find('.show_more_wrapper');
-                        var newCount  = temp.find('.total_found_products').html();
-
-                        console.log('New Items:', newItems);
-                        console.log('New Button:', newButton);  
-                            console.log('New Count:', newCount);
-
-                        // Append new property items
-                        if(newItems){
-                            $('.property-slider').append(newItems);
-                        }
-
-                        // Update result counter
-                        if(newCount){
-                            $('.total_found_products').html(newCount);
-                        }
-
-                        // Replace Load More button
-                        $('.show_more_wrapper').remove();
-
-                        if(newButton.length){
-                            $('#all_properties').append(newButton);
-                        }
-                         if(mapJson){
-                            var newMapData = JSON.parse(mapJson);
-                            updateMapMarkers(newMapData);
-                        }
-                    } else {
-                        $('#all_properties').html(response);
-                    }
-                }
+            // ==============================
+            // FILTER SUBMIT
+            // ==============================
+            $("#filter-properties").on("submit", function (e) {
+                e.preventDefault();
+                currentPage = 1;
+                load_properties(currentPage, false);
             });
-        }
-            /* FILTER SUBMIT */
-            $('#filter-property').on('submit', function (e) {
+
+            // ==============================
+            // LOAD MORE CLICK
+            // ==============================
+            $(document).on("click", ".load-more-btn", function (e) {
                 e.preventDefault();
 
-                currentFilters = getFormValues(); // store values
+                var button = $(this);
+                var nextPage = button.data("page");
+                var maxPage = button.data("max");
 
-                if (
-                    currentFilters.search === '' &&
-                    (!currentFilters.location || currentFilters.location === 'all') &&
-                    (!currentFilters.type || currentFilters.type === 'all') &&
-                    currentFilters.price === ''
-                ) {
-                    alert('Please select at least one filter option.');
-                    return false;
+                if (nextPage <= maxPage) {
+                    load_properties(nextPage, true);
+                    currentPage = nextPage;
                 }
 
-                load_properties(1, false); // load first page with new filters
+                if (nextPage >= maxPage) {
+                    button.closest(".show_more_wrapper").remove();
+                }
             });
 
-        
-        
-            /* LOAD MORE CLICK */
-                $(document).on('click', '.load-more-btn', function (e) {
-                    e.preventDefault();
+            // ==============================
+            // MAIN LOAD FUNCTION
+            // ==============================
 
-                    var button = $(this);
-                    var nextPage = button.data('page');
-                    var maxPage = button.data('max');
+            function load_properties(paged = 1, append = false) {
 
-                    load_properties(nextPage, true);
+                var formData = new FormData($('#filter-properties')[0]);
+                formData.append("action", "filter_search_property");
+                formData.append("paged", paged);
 
-                    if(nextPage >= maxPage){
-                        button.closest('.show_more_wrapper').remove();
+                if (!append) {
+                    $("#all_properties").html('<span class="loader-property"></span>');
+                } else {
+                    $(".load-more-btn").text("Loading...");
+                }
+
+                $.ajax({
+                    url: '<?php echo admin_url("admin-ajax.php"); ?>',
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+
+                       
+                 
+
+                        if (!response.success) return;
+
+                        var html    = response.data.html;
+                        var mapData = response.data.map;
+                        var count   = response.data.count;
+                        var maxPage = response.data.max_page;
+
+                        if (append) {
+
+                            var temp = $("<div>").html(html);
+                            var newItems = temp.find(".property-slider").html();
+                            var newButton = temp.find(".show_more_wrapper");
+
+                            if (newItems) {
+                                $(".property-slider").append(newItems);
+                            }
+
+                            $(".show_more_wrapper").remove();
+
+                            if (newButton.length) {
+                                $("#all_properties").append(newButton);
+                            }
+
+                             if (mapData) {
+                                 propertyData = [...propertyData, ...mapData];
+  
+                                initPropertyMap(propertyData);
+                            }
+
+                        } else {
+                            $("#all_properties").html(html);
+                                if (mapData) {
+                                initPropertyMap(mapData);
+                            }
+                        }
+
+                        if (count) {
+                            $(".total_found_products").html(count);
+                        }
+
+                        // ✅ Update Map
+                        
+                    },
+                     error: function(xhr, status, error) {
+                        console.log("Error:", error);
+                        alert('Network Error Please Try Again.');
+                    },
+
+                    complete: function(xhr, status) {
+                         $(".listing_page_filter").removeClass('active');
+                        console.log("Request Finished");
+                        // This runs ALWAYS (after success or error)
                     }
                 });
+            }
+
+
+         // =========================================
+            // RESTORE FILTER FROM LOCAL STORAGE
+        // =========================================
+
+            var queryString = window.location.search;
+
+            if (!queryString.includes('searchproperty')) return;
+
+            const savedData = localStorage.getItem("formData");
+            if (!savedData) return;
+
+            const params = new URLSearchParams(savedData);
+
+            $("#all_properties").html('<span class="loader-property"></span>');
+
+            // Delay a little to ensure selects are fully rendered
+            setTimeout(function () {
+
+                params.forEach(function (value, key) {
+
+                    let field = $("[name='" + key + "']");
+
+                    if (!field.length) return;
+
+                    // Checkbox arrays
+                    if (key.includes("[]")) {
+                        $("input[name='" + key + "'][value='" + value + "']")
+                            .prop("checked", true);
+                    }
+
+                    // Select dropdown
+                    else if (field.is("select")) {
+
+                         let cleanValue = value.replace(/[^\d.]/g, '');
+
+                        field.val(cleanValue).trigger("change");
+                    }
+
+                    // Normal input
+                    else {
+                        field.val(value);
+                    }
+
+                });
+
+                // Visible address
+                if (params.get("acf_map[address]")) {
+                    $("#filter_address").val(params.get("acf_map[address]"));
+                }
+
+                // Auto submit
+                $("#filter-properties").trigger("submit");
+
+            }, 100);
 
         });
-
 
 
 

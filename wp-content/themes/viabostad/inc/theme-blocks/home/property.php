@@ -22,7 +22,7 @@
                     aria-controls="all"
                     aria-selected="true"
                   >
-                    All
+                    <?php _e('All', 'viabosted'); ?>
                   </button>
                 </li>
                  <?php
@@ -69,7 +69,12 @@
                           'order' => 'DESC',
                       ]);
 
-                if ( $product_query->have_posts() ) { ?>
+                if ( $product_query->have_posts() ) {
+                  
+                  
+                  
+                  
+                  ?>
 
 
                   <div class="tab-pane fade show active"
@@ -80,8 +85,14 @@
                     <div class="row gy-md-4 gy-3 property-slider">
                 
               <?php while ( $product_query->have_posts() ) :
+
+
                     
                     $product_query->the_post();
+
+                    // $location = get_field('address_sp', get_the_ID());
+
+                    // echo  $location['address'] ."<br>";
 
                       get_template_part( 'template-part/poperty-loop' );
                    

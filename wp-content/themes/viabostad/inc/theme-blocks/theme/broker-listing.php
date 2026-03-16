@@ -24,14 +24,25 @@ $description = get_field('description_broker');
               <div class="row g-3">
                 <div class="col-md-6">
                   <div class="search-wp position-relative">
-                    <input type="text" class="form-control" name="keyword" placeholder="Search for broker">
+                  
+                        <input type="text" id="filter_address" class="form-control" name="filter_address" placeholder="Search location..." autocomplete="off">
+
+                    <input type="hidden" name="acf_map[address]" id="acf_map_address">
+                    <input type="hidden" name="acf_map[lat]" id="acf_map_lat">
+                    <input type="hidden" name="acf_map[lng]" id="acf_map_lng">
+                    <input type="hidden" name="acf_map[zoom]" id="acf_map_zoom" value="14">
+                    <input type="hidden" name="acf_map[name]" id="acf_map_name">
+                    <input type="hidden" name="acf_map[street_number]" id="acf_map_street_number">
+                    <input type="hidden" name="acf_map[street_name]" id="acf_map_street_name">
+                    <input type="hidden" name="acf_map[city]" id="acf_map_city">
+                    <input type="hidden" name="acf_map[state]" id="acf_map_state">
+                    <input type="hidden" name="acf_map[post_code]" id="acf_map_post_code">
+                    <input type="hidden" name="acf_map[country]" id="acf_map_country">
+                    <input type="hidden" name="acf_map[country_short]" id="acf_map_country_short">
                     <button id="search-broker">
                       <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/search.svg" alt="Search" width="20px" height="20px">
                     </button>
                   </div>
-
-       
-
                 </div>
 
                    <?php 
@@ -46,6 +57,7 @@ $description = get_field('description_broker');
 
                         <div class="col-md-6">
                         <select class="form-control broker-agencies" name="agency">
+                            <option selected disabled><?php _e('Select Agency', 'viabosted'); ?></option>
                             <?php foreach ( $agency_users as $user ) : 
                                         
                                         $full_name = trim( $user->first_name . ' ' . $user->last_name );
@@ -74,7 +86,7 @@ $description = get_field('description_broker');
             $broker_query = new WP_Query([
 
                 'post_type'      => 'broker',
-                'posts_per_page' => 10,
+                'posts_per_page' => -1,
                 'orderby' => 'id',
                 'order' => 'ASC',
             ]);
@@ -84,13 +96,13 @@ $description = get_field('description_broker');
 
 
               $totalPosts = $broker_query->found_posts;
-              
-              if($totalPosts > 1){
-                 $mess = $totalPosts. ' Results Found';
-              }else{
-                $mess = $totalPosts. ' Result Found';
+
+              if ($totalPosts > 1) {
+                  $mess = $totalPosts . ' ' . __('Results Found', 'viabosted');
+              } else {
+                  $mess = $totalPosts . ' ' . __('Result Found', 'viabosted');
               }
-              
+                            
               ?>
 
           <div id="broker-results">      
@@ -156,6 +168,88 @@ $description = get_field('description_broker');
       </div>
     </section>
 
+    
+
+      <script>
+          jQuery(document).ready(function ($) {
+
+                  // INIT GOOGLE AUTOCOMPLETE PROPERLY
+                  function initAutocomplete() {
+
+                      if (typeof google === 'undefined' || !google.maps.places) {
+                          console.log('Google Places not loaded');
+                          return;
+                      }
+
+                      const input = document.getElementById('filter_address');
+                      if (!input) return;
+
+                      const autocomplete = new google.maps.places.Autocomplete(input, {
+                          types: ['geocode'], // show full address suggestions
+                          fields: ['formatted_address', 'geometry', 'address_components']
+                      });
+
+                      autocomplete.addListener('place_changed', function () {
+
+                          const place = autocomplete.getPlace();
+                          if (!place.geometry) return;
+
+                          // Basic data
+                          $('#acf_map_address').val(place.formatted_address);
+                          $('#acf_map_lat').val(place.geometry.location.lat());
+                          $('#acf_map_lng').val(place.geometry.location.lng());
+                          $('#acf_map_zoom').val(14);
+
+                          // Clear old values first
+                          $('#acf_map_street_number, #acf_map_street_name, #acf_map_city, #acf_map_state, #acf_map_post_code, #acf_map_country').val('');
+
+                          
+                          //console.log('Selected place:', place);
+                          
+                          
+                          // Fill address components
+                          place.address_components.forEach(function(component) {
+
+                              const types = component.types;
+
+                          
+                              if (types.includes('street_number')) {
+                                  $('#acf_map_street_number').val(component.long_name);
+                              }
+
+                              if (types.includes('route')) {
+                                  $('#acf_map_street_name').val(component.long_name);
+                              }
+
+                              if (types.includes('postal_town')) {
+                                  $('#acf_map_city').val(component.long_name);
+                              }
+
+                              if (types.includes('administrative_area_level_1')) {
+                                  $('#acf_map_state').val(component.long_name);
+                              }
+
+                              if (types.includes('postal_code')) {
+                                  $('#acf_map_post_code').val(component.long_name);
+                              }
+
+                              if (types.includes('country')) {
+                                  $('#acf_map_country').val(component.long_name);
+                              }
+
+                          });
+
+                      });
+                  }
+
+                  // Run after window fully loads (important!)
+                  jQuery(window).on('load', function () {
+                      initAutocomplete();
+                  });
+
+          });
+      </script>
+
     <script>
       jQuery(document).ready(function ($) {
 
@@ -190,6 +284,64 @@ $description = get_field('description_broker');
             });
 
           });
+
+        // =========================================
+            // RESTORE FILTER FROM LOCAL STORAGE
+        // =========================================
+
+            var queryString = window.location.search;
+
+            if (!queryString.includes('searchbroker')) return;
+
+            const savedData = localStorage.getItem("formData");
+            if (!savedData) return;
+
+            const params = new URLSearchParams(savedData);
+
+             $('#broker-results').html('<span class="loader-property"></span>');
+
+            // Delay a little to ensure selects are fully rendered
+            setTimeout(function () {
+
+                params.forEach(function (value, key) {
+
+                    let field = $("[name='" + key + "']");
+
+                    if (!field.length) return;
+
+                    // Checkbox arrays
+                    if (key.includes("[]")) {
+                        $("input[name='" + key + "'][value='" + value + "']")
+                            .prop("checked", true);
+                    }
+
+                    // Select dropdown
+                    else if (field.is("select")) {
+
+                         let cleanValue = value.replace(/[^\d.]/g, '');
+
+                        field.val(cleanValue).trigger("change");
+                    }
+
+                    // Normal input
+                    else {
+                        field.val(value);
+                    }
+
+                });
+
+                // Visible address
+                if (params.get("acf_map[address]")) {
+                    $("#filter_address").val(params.get("acf_map[address]"));
+                }
+
+                // Auto submit
+                $("#brokerSearchForm").trigger("submit");
+
+            }, 1);
+
+
+
 
       });
   

@@ -27,7 +27,7 @@ $homeBannerSearch = get_field('form_shortcode_hb');
             loading="eager"
           />
         
-          <div class="text_wrapper">
+           <div id="find_property_home" class="text_wrapper">
             <?php if($homeBannerTitle){ ?>
               <h1 class="main_heading"><?php echo $homeBannerTitle; ?></h1>
             <?php } ?>

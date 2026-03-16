@@ -40,7 +40,11 @@ add_action('acf/init', function () {
         'user-registration'  => 'User Registration',
         'broker-listing'     => 'Broker Listing',  
         'theme-shortcode'    => 'Theme Shortcode',  
-        'saved-property'     => 'Saved Property'    
+        'saved-property'     => 'Saved Property', 
+        'user-login'    => 'User Login',
+        'theme-textblock'    => 'Text Block'
+        
+        
     ];
 
     foreach ($blocks as $slug => $title) {

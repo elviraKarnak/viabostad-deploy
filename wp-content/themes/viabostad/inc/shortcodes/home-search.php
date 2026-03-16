@@ -15,7 +15,7 @@ function home_search_callback() {
     ob_start();
     ?>
       
-          <div class="find_property_wrapper">
+          <div  class="find_property_wrapper">
             <ul class="nav nav-pills" id="homeFilter" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="for-sale-tab" data-bs-toggle="tab" data-bs-target="#for-sale" type="button" role="tab" aria-controls="for-sale" aria-selected="true">For sale</button>

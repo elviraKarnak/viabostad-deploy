@@ -9,17 +9,29 @@ function home_search_form_one_callback() {
     ob_start();
     ?>
 
-        <form>
+        <form id="home-search-form-one" class="home-search-form-one" method="post">
                   <div class="field search">
                     <label>
-                      Area
-                      <input type="text" placeholder="Enter area or address">
+                        Area
+                        <input type="text" id="filter_address" name="filter_address" placeholder="Search location..." autocomplete="off">
                     </label>
+                    <input type="hidden" name="acf_map[address]" id="acf_map_address">
+                    <input type="hidden" name="acf_map[lat]" id="acf_map_lat">
+                    <input type="hidden" name="acf_map[lng]" id="acf_map_lng">
+                    <input type="hidden" name="acf_map[zoom]" id="acf_map_zoom" value="14">
+                    <input type="hidden" name="acf_map[name]" id="acf_map_name">
+                    <input type="hidden" name="acf_map[street_number]" id="acf_map_street_number">
+                    <input type="hidden" name="acf_map[street_name]" id="acf_map_street_name">
+                    <input type="hidden" name="acf_map[city]" id="acf_map_city">
+                    <input type="hidden" name="acf_map[state]" id="acf_map_state">
+                    <input type="hidden" name="acf_map[post_code]" id="acf_map_post_code">
+                    <input type="hidden" name="acf_map[country]" id="acf_map_country">
+                    <input type="hidden" name="acf_map[country_short]" id="acf_map_country_short">
                   </div>
   
                   <div class="field checkboxes_wrapper">
                     <label>
-                      <input type="checkbox" name="house_type">
+                      <input type="checkbox" name="propertytype[]" value= "all">
                       <div class="field_text">
                         <img src="/wp-content/uploads/2026/02/buliding.png" alt="icon" width="20" height="20" class='icon'>
                       All types
@@ -49,52 +61,184 @@ function home_search_form_one_callback() {
                     <button type="button" class="show_filter_option">Show search filters <i class="fas fa-chevron-right"></i></button>
                     <div class="filter_options_wrapper">
                       <div class="row_group">
+                        <?php  $rooms_min_values = get_field('rooms_data', 'option'); ?>
                         <div class="field select">
                           <label>
                             Minimum number of rooms
-                            <select class="form-select w-100">
+                            <select class="form-select w-100" name="rooms_min">
                               <option>All</option>
-                              <option>1 room</option>
-                              <option>2 room</option>
+                              <?php foreach ($rooms_min_values as $room) { ?>
+                                <option><?php echo $room['room_number_sin']; ?> room<?php echo $room['room_number_sin'] > 1 ? 's' : ''; ?></option>
+                              <?php } ?>
+                            </select>
+                          </label>
+                        </div>
+                        <?php  $rooms_min_values = get_field('rooms_data', 'option'); ?>
+                        <div class="field select">
+                          <label>
+                            Maximum number of rooms
+                            <select class="form-select w-100" name="rooms_max">
+                              <option>All</option>
+                              <?php foreach ($rooms_min_values as $room) { ?>
+                                <option value="<?php echo $room['room_number_sin']; ?>"><?php echo $room['room_number_sin']; ?> room<?php echo $room['room_number_sin'] > 1 ? 's' : ''; ?></option>
+                              <?php } ?>
                             </select>
                           </label>
                         </div>
                         <div class="field select">
+                          <?php $living_area_min_values =  get_field('area_sqm' , 'option');  ?>
                           <label>
                             Minimum living area
-                            <select class="form-select w-100">
+                            <select class="form-select w-100" name="area">
                               <option>All</option>
-                              <option>20 m<sup>2</sup></option>
-                              <option>25 m<sup>2</sup></option>
+                              <?php foreach ($living_area_min_values as $value) { ?>
+                                <option value="<?php echo $value['area_sin']; ?>"><?php echo $value['area_sin']; ?> m<sup>2</sup></option>
+                              <?php } ?>
                             </select>
                           </label>
                         </div>
-                        <div class="field select">
-                          <label>
-                            Highest price
-                            <select class="form-select w-100">
-                              <option>Nothing</option>
-                              <option>100,000 SEK</option>
-                              <option>200,000 SEK</option>
-                            </select>
-                          </label>
-                        </div>
+                   
                       </div>
                       <div class="row_group">
-                       
+                             <div class="field select">
+                          <label>
+                            Highest price
+                            <?php $price_max_values = get_field('minimum_price' , 'option'); ?>
+                            <select class="form-select w-100" name="price">
+                              <option>Nothing</option>
+                              <?php foreach ($price_max_values as $value) { ?>
+                                <option value="<?php echo $value['min_price_room']; ?>"><?php echo number_format($value['min_price_room'], 0, ',', ' ') ." " . get_woocommerce_currency(); ?></option>
+                              <?php } ?>
+          
+                            </select>
+                          </label>
+                        </div>
                         <div class="field flex-grow-1">
                           <label>
                             Keyword
-                            <input type="text" placeholder="Pool, tiled stoved, etc ">
+                            <input type="text" placeholder="Pool, tiled stoved, etc " name="keyword">
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <input type="hidden" name="action" value="home_search_form_one">
                   <div class="submit_wrapper">
                     <input type="submit" value="Find homes for sale">
                   </div>
                   </form>
+
+
+
+
+
+
+                  <script>
+    jQuery(document).ready(function ($) {
+
+            // INIT GOOGLE AUTOCOMPLETE PROPERLY
+            function initAutocomplete() {
+
+                if (typeof google === 'undefined' || !google.maps.places) {
+                    console.log('Google Places not loaded');
+                    return;
+                }
+
+                const input = document.getElementById('filter_address');
+                if (!input) return;
+
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['geocode'], // show full address suggestions
+                    fields: ['formatted_address', 'geometry', 'address_components']
+                });
+
+                autocomplete.addListener('place_changed', function () {
+
+                    const place = autocomplete.getPlace();
+                    if (!place.geometry) return;
+
+                    // Basic data
+                    $('#acf_map_address').val(place.formatted_address);
+                    $('#acf_map_lat').val(place.geometry.location.lat());
+                    $('#acf_map_lng').val(place.geometry.location.lng());
+                    $('#acf_map_zoom').val(14);
+
+                    // Clear old values first
+                    $('#acf_map_street_number, #acf_map_street_name, #acf_map_city, #acf_map_state, #acf_map_post_code, #acf_map_country').val('');
+
+                    
+                    //console.log('Selected place:', place);
+                    
+                    
+                    // Fill address components
+                    place.address_components.forEach(function(component) {
+
+                        const types = component.types;
+
+                    
+                        if (types.includes('street_number')) {
+                            $('#acf_map_street_number').val(component.long_name);
+                        }
+
+                        if (types.includes('route')) {
+                            $('#acf_map_street_name').val(component.long_name);
+                        }
+
+                        if (types.includes('postal_town')) {
+                            $('#acf_map_city').val(component.long_name);
+                        }
+
+                        if (types.includes('administrative_area_level_1')) {
+                            $('#acf_map_state').val(component.long_name);
+                        }
+
+                        if (types.includes('postal_code')) {
+                            $('#acf_map_post_code').val(component.long_name);
+                        }
+
+                        if (types.includes('country')) {
+                            $('#acf_map_country').val(component.long_name);
+                        }
+
+                    });
+
+                });
+            }
+
+            // Run after window fully loads (important!)
+            jQuery(window).on('load', function () {
+                initAutocomplete();
+            });
+
+    });
+</script>
+
+
+                  <script>
+                    jQuery(document).ready(function($) {
+
+                          $('#home-search-form-one').on('submit', function(e) {
+                            // Prevent the default form submission
+                            e.preventDefault();
+
+                            // Collect form data
+                            var formData = $(this).serialize();
+                            
+                             localStorage.setItem('formData', formData);
+
+                             window.location.href = '/housing/?searchproperty'; // Redirect to the property listing page with form data as query parameters
+
+                        });
+                     });
+                  </script>
+
+
+
+
+
+
+
+
 
 
     <?php

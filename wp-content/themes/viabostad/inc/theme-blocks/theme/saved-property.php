@@ -38,8 +38,8 @@
 
         <div class="row">
         <div class="col-12 text-center">
-            <h2 class="title">You are not logged in</h2>
-            <p>Please log in to view your saved properties.</p>
+            <h2 class="title"><?php _e('You are not logged in', 'viabosted'); ?></h2>
+            <p><?php _e('Please log in to view your saved properties.', 'viabosted'); ?></p>
         </div>
         </div>
     <?php } ?>

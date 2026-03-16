@@ -13,4 +13,6 @@ Text Domain: viabosted
 This theme, like WordPress, is licensed under the GPL.
 **/
 
-   
+.scend_row_form .field.select{
+    width: calc(100% / 4 - 20px);
+}

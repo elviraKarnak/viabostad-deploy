@@ -40,19 +40,24 @@
               )
             );
             ?>
-            <?php if(is_user_logged_in()){ ?>
-              <a href="<?php echo wp_logout_url(); ?>" class="login_btn">Log Out</a>
-            <?php } else{ ?>
-              <a href="#" class="login_btn">Log In</a>
-            <?php } ?>
           </nav>
-          <div class="btns_wrapper d-xl-none">
+          <div class="btns_wrapper">
+            <a href="#"><i class="fas fa-shopping-cart"></i></a>
             <?php if(is_user_logged_in()){ ?>
-              <a href="<?php echo wp_logout_url(); ?>" class="login_btn">Log Out</a>
+              <a href="<?php echo  bp_loggedin_user_domain(); ?>"><i class="fas fa-user"></i></a>
+              <a href="<?php echo wp_logout_url(); ?>" class="login_btn"><?php _e('Log Out', 'viabosted'); ?></a>
             <?php } else{ ?>
-              <a href="#" class="login_btn">Log In</a>
-            <?php } ?>
-            <div class="hemburger">
+               <?php 
+                  $link = get_field('log_in_button', 'option');
+                    if( $link ){
+                        $link_url = $link['url'];
+                        $link_title = $link['title'];
+                        $link_target = $link['target'] ? $link['target'] : '_self';
+                        ?>
+                        <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>" class="login_btn"><?php echo esc_html($link_title); ?></a>
+            <?php } }?>
+
+            <div class="hemburger d-xl-none">
               <span></span>
               <span></span>
               <span></span>

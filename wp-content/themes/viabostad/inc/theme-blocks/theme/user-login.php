@@ -1,31 +1,12 @@
-<?php
-/**
- * Show message and log-in form when the currently requested
- * screen is not accessible by the current user.
- *
- * @package BuddyPress
- * @subpackage bp-nouveau
- *
- * @since 12.0.0
- */
-
-// Exit if accessed directly.
-//defined( 'ABSPATH' ) || exit;
-?>
-
-
-
-<div class="relative_header"></div> 
 
 
 
 <section class="pt_100 pb_100 login-section">
 
     <div class="container">
-        <h1>Login</h1>
-        <p class="has-text-align-center">
-            <?php esc_html_e( 'This community area is accessible to logged-in members only.', 'buddypress' ); ?>
-        </p>
+
+    <?php if(!is_user_logged_in()) : ?>
+    <h1><?php _e('User Login', 'viabosted'); ?></h1>
 
         <div class="login-form-wrapper">
 
@@ -39,11 +20,11 @@
                 'remember'       => true
             ) );
             ?>
-
+            <p><?php _e('Not a member?', 'viabosted'); ?> <a href="/registration/"><?php _e('Signup now', 'viabosted'); ?></a></p>
         </div>
+        <?php else : ?>
+            <h1><?php _e('You are already logged in', 'viabosted'); ?></h1>
+            <?php endif; ?>
     </div>
 
 </section>
-
-
-

@@ -7,6 +7,107 @@ jQuery(document).ready(function ($) {
     var is_user_logged_in_flag = viabostad_functions.is_user_logged_in; // Access the localized login status
 
 
+            $("#filter_address").on("input", function () {
+
+                if ($(this).val().trim() === "") {
+
+                    // Clear all hidden map fields
+                    $("#acf_map_address").val('');
+                    $("#acf_map_lat").val('');
+                    $("#acf_map_lng").val('');
+                    $("#acf_map_zoom").val('');
+                    $("#acf_map_name").val('');
+                    $("#acf_map_street_number").val('');
+                    $("#acf_map_street_name").val('');
+                    $("#acf_map_city").val('');
+                    $("#acf_map_state").val('');
+                    $("#acf_map_post_code").val('');
+                    $("#acf_map_country").val('');
+                    $("#acf_map_country_short").val('');
+
+                    console.log("Location cleared → hidden fields reset");
+                }
+            });
+
+                  $("#filter_address_two").on("input", function () {
+
+                if ($(this).val().trim() === "") {
+
+                    // Clear all hidden map fields
+                    $("#acf_map_address_2").val('');
+                    $("#acf_map_lat_2").val('');
+                    $("#acf_map_lng_2").val('');
+                    $("#acf_map_zoom_2").val('');
+                    $("#acf_map_name_2").val('');
+                    $("#acf_map_street_number_2").val('');
+                    $("#acf_map_street_name_2").val('');
+                    $("#acf_map_city_2").val('');
+                    $("#acf_map_state_2").val('');
+                    $("#acf_map_post_code_2").val('');
+                    $("#acf_map_country_2").val('');
+                    $("#acf_map_country_short_2").val('');
+
+                    console.log("Location cleared → hidden fields reset");
+                }
+            });
+
+
+                  $("#home-search-form-three").on("input", function () {
+
+                if ($(this).val().trim() === "") {
+
+                    // Clear all hidden map fields
+                    $("#acf_map_address_3").val('');
+                    $("#acf_map_lat_3").val('');
+                    $("#acf_map_lng_3").val('');
+                    $("#acf_map_zoom_3").val('');
+                    $("#acf_map_name_3").val('');
+                    $("#acf_map_street_number_3").val('');
+                    $("#acf_map_street_name_3").val('');
+                    $("#acf_map_city_3").val('');
+                    $("#acf_map_state_3").val('');
+                    $("#acf_map_post_code_3").val('');
+                    $("#acf_map_country_3").val('');
+                    $("#acf_map_country_short_3").val('');
+
+                    console.log("Location cleared → hidden fields reset");
+                }
+            });
+
+
+            
+            $("#acf_address").on("input", function () {
+
+                if ($(this).val().trim() === "") {
+
+                    // Clear all hidden map fields
+                    $("#acf_map_address").val('');
+                    $("#acf_map_lat").val('');
+                    $("#acf_map_lng").val('');
+                    $("#acf_map_zoom").val('');
+                    $("#acf_map_name").val('');
+                    $("#acf_map_street_number").val('');
+                    $("#acf_map_street_name").val('');
+                    $("#acf_map_city").val('');
+                    $("#acf_map_state").val('');
+                    $("#acf_map_post_code").val('');
+                    $("#acf_map_country").val('');
+                    $("#acf_map_country_short").val('');
+
+                    console.log("Location cleared → hidden fields reset");
+                }
+            });
+
+            
+                document.addEventListener("DOMContentLoaded", function () {
+                    Fancybox.bind("[data-fancybox='property-gallery']", {
+                        Thumbs: {
+                            autoStart: true
+                        }
+                    });
+                });
+
+            
 
 
 
@@ -145,5 +246,41 @@ jQuery(document).ready(function ($) {
         });
     });
 
+
+  // product add to cart
+
+           jQuery(document).on('submit', '#add_to_cart_product', function(e) {
+
+                e.preventDefault();
+
+                var form = jQuery(this);
+                var formData = form.serialize(); // serialize all form fields
+
+                formData += '&action=viabosted_add_dynamic_product';
+                formData += '&nonce=' + nonce; // localized nonce
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: ajaxUrl,
+                    data: formData,
+                    beforeSend: function() {
+                        form.addClass('loading');
+                    },
+                    success: function(response) {
+
+                        form.removeClass('loading');
+
+                        if (response.success) {
+                            window.location.href = wc_add_to_cart_params.cart_url;
+                        } else {
+                            alert('Something went wrong');
+                        }
+                    }
+                });
+
+            });
+
+      })
+
+
  
-});

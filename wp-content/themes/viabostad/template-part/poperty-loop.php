@@ -2,6 +2,8 @@
       
     $property_id = get_the_ID();
 
+    $noImage = get_field('no_property_image', 'option');
+
     // ACF fields
     $bedroom  = get_field('bedroom_sp', $property_id);
     $bathroom = get_field('bathroom_sp', $property_id);
@@ -14,6 +16,7 @@
     $property_price = get_field('_price', $property_id);
     $property_img   = get_the_post_thumbnail_url($property_id, 'full');
     $currency =  get_woocommerce_currency_symbol();
+    $propertyDescription = get_field('property_description_sp', $property_id); 
  ?>
 
     <div class="col-lg-4 col-md-6">
@@ -23,7 +26,7 @@
             <div class="top">
                 <a href="<?php echo esc_url($property_link); ?>">
                 <img
-                    src="<?php echo esc_url($property_img ?: get_stylesheet_directory_uri() . '/assets/images/placeholder.webp'); ?>"
+                    src="<?php echo $property_img ? $property_img : $noImage['url']; ?>"
                     alt="<?php echo esc_attr($property_title); ?>"
                     width="520"
                     height="300"
@@ -87,7 +90,7 @@
 
             <!-- BOTTOM -->
             <div class="bottom">
-                <p><?php echo wp_trim_words(get_the_excerpt(), 18); ?></p>
+                <p><?php echo wp_trim_words($propertyDescription, 18); ?></p>
 
                 <div class="price_wrapper">
                 <h4 class="price"><?php echo $currency.$property_price; ?></h4>

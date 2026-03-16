@@ -109,7 +109,7 @@ if ( $product_query->have_posts() ) { ?>
       <section class="explore_tranding_room bd-card-sc">
         <div class="container">
           <div class="sec_head">
-            <h2 class="sec_hdng mb-0">No property posts have been published yet by <span><?php the_title(); ?></span></h2>
+            <h2 class="sec_hdng mb-0"><?php _e('No property posts have been published yet by', 'viabosted'); ?> <span><?php the_title(); ?></span></h2>
           </div>
         </div>
       </section>

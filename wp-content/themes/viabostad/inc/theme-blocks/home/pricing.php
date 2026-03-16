@@ -30,7 +30,7 @@ $secTitle = get_field('section_title_op');
             <div class="col-lg-4">
               <div class="inner_wrapper">
                 <?php if($isp){ ?>
-                  <span class="top_tag"> Most Popular </span>
+                  <span class="top_tag"> <?php _e('Most Popular', 'viabosted'); ?> </span>
                 <?php } ?>
                 <div class="title_wrap">
                   <?php if($title){ ?>

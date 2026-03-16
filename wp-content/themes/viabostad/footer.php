@@ -124,7 +124,7 @@ $elvlink = get_field('elvira_link_via','option');
           <?php if($elvlink){ ?>
                    <a href="<?php echo $elvlink; ?>">
           <p>
-            Designed & Developed by
+            <?php _e('Designed & Developed by', 'viabosted'); ?>
    
               <img
                 src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/elvira logo.svg"

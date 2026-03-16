@@ -45,6 +45,56 @@
             
         ?>
 
+        <style>
+
+          
+        .gallery-thumb {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.more-images-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 28px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.gallery-thumb {
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.more-images-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.house-gallery .col-md-6 {
+    position: relative;
+}
+
+        </style>
+
+
         <main>
 
         <section class="inner-banner">
@@ -62,14 +112,17 @@
                 <div class="house-gallery">
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <img src="<?php echo esc_url($property_img ?: get_stylesheet_directory_uri() . '/assets/images/placeholder.webp'); ?>"
-                       width="<?php echo esc_attr($img_src[1]); ?>"
-                      height="<?php echo esc_attr($img_src[2]); ?>" 
-                      alt="<?php echo esc_attr($property_title); ?>">
+                      <a href="<?php echo esc_url($property_img); ?>" data-fancybox="property-gallery" class="w-100">
+                          <img src="<?php echo esc_url($property_img ?: get_stylesheet_directory_uri() . '/assets/images/placeholder.webp'); ?>"
+                              width="<?php echo esc_attr($img_src[1]); ?>"
+                              height="<?php echo esc_attr($img_src[2]); ?>"
+                              alt="<?php echo esc_attr($property_title); ?>">
+                      </a>
+                     
                     </div>
 
                     <div class="col-md-6">
-                        <?php if(!empty($imgGall)): ?>
+                        <!-- <?php if(!empty($imgGall)): ?>
                           <div class="row g-3">
                             <?php foreach ($imgGall as $img): ?>
                               <div class="col-md-6 col-6">
@@ -80,7 +133,86 @@
                               </div>
                             <?php endforeach; ?>
                           </div>
-                        <?php endif; ?>
+                        <?php endif; ?> -->
+           
+                          <?php
+                          $gallery_images = [];
+
+                          // Add featured image FIRST (for fancybox only, not display here)
+                          if ($property_img) {
+                              $gallery_images[] = [
+                                  'url'    => $property_img,
+                                  'width'  => $img_src[1] ?? '',
+                                  'height' => $img_src[2] ?? '',
+                                  'alt'    => $property_title
+                              ];
+                          }
+
+                          // Add ACF gallery images
+                          if (!empty($imgGall)) {
+                              foreach ($imgGall as $img) {
+                                  $gallery_images[] = $img;
+                              }
+                          }
+
+                          $total_images = count($gallery_images);
+                          $display_limit = 4; // 3 normal + 1 overlay
+                          ?>
+
+                          <?php if ($total_images > 1): ?>
+                          <div class="row g-3">
+
+                          <?php
+                          foreach ($gallery_images as $index => $img):
+
+                              // Skip index 0 (featured image already shown left side)
+                              if ($index == 0) continue;
+
+                              if ($index > $display_limit) continue;
+
+                              $is_overlay = ($index == $display_limit && $total_images > 4);
+                          ?>
+
+                          <div class="col-md-6 col-6 position-relative">
+
+                              <a href="<?php echo esc_url($img['url']); ?>"
+                                data-fancybox="property-gallery"
+                                data-caption="<?php echo esc_attr($img['alt']); ?>">
+
+                                  <img src="<?php echo esc_url($img['url']); ?>"
+                                      alt="<?php echo esc_attr($img['alt']); ?>"
+                                      class="img-fluid gallery-thumb">
+
+                                  <?php if ($is_overlay): ?>
+                                      <div class="more-images-overlay">
+                                          +<?php echo $total_images - 4; ?>
+                                      </div>
+                                  <?php endif; ?>
+
+                              </a>
+
+                          </div>
+
+                          <?php endforeach; ?>
+
+                          </div>
+
+                          <!-- Hidden images for Fancybox -->
+                          <?php
+                          foreach ($gallery_images as $index => $img):
+                              if ($index <= $display_limit) continue;
+                          ?>
+                              <a href="<?php echo esc_url($img['url']); ?>"
+                                data-fancybox="property-gallery"
+                                data-caption="<?php echo esc_attr($img['alt']); ?>"
+                                style="display:none;"></a>
+                          <?php endforeach; ?>
+
+                          <?php endif; ?>
+                                    
+                         
+
+                              
                       </div>
                     </div>
                   </div>
@@ -93,7 +225,7 @@
                       <h2 class="sec_hdng"><?php echo esc_html($property_title); ?></h2>
                       <p class="pd-location">
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/loc2.svg" width="20" height="20" alt="Location"> 
-                        <?php echo $location['city'].", ". $location['country']; ?>
+                        <?php echo $location['address']; ?>
                       </p>
                     </div>
                     <div class="pd-price"><?php echo $currency . " " . number_format($property_price); ?></div>
@@ -101,30 +233,30 @@
 
                   <!-- Description -->
                   <div class="pd-section">
-                    <h2 class="pd-section-title">Description</h2>
-                      <?php the_content();  ?>
+                    <h2 class="pd-section-title"><?php _e('Description', 'viabosted'); ?></h2>
+                      <?php echo get_field('property_description_sp'); ?>
                   </div>
 
                   <div class="pd-divider"></div>
 
                   <!-- Details -->
                   <div class="pd-section">
-                    <h2 class="pd-section-title">Details</h2>
+                    <h2 class="pd-section-title"><?php _e('Details', 'viabosted'); ?></h2>
 
                     <div class="pd-details-grid">
                       <?php if ($bedroom): ?>
                         <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon1.svg" width="20" height="20"
-                            alt="Bedrooms"><span> <strong>Bedrooms:</strong> <?php echo $bedroom; ?></span>
+                            alt="Bedrooms"><span> <strong><?php _e('Bedrooms:', 'viabosted'); ?></strong> <?php echo $bedroom; ?></span>
                         </div>
                       <?php endif; ?>
                       <?php if ($bathroom): ?>
                         <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon2.svg" width="20" height="20" alt="Bathrooms">
-                          <span><strong>Bathrooms:</strong> <?php echo $bathroom; ?></span>
+                          <span><strong><?php _e('Bathrooms:', 'viabosted'); ?></strong> <?php echo $bathroom; ?></span>
                         </div>
                       <?php endif; ?>
                       <?php if ($area): ?>
                         <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon3.svg" width="20" height="20" alt="Areas">
-                          <span><strong>Areas:</strong> <?php echo esc_html($area); ?> sqm</span>
+                          <span><strong><?php _e('Areas:', 'viabosted'); ?></strong> <?php echo esc_html($area); ?> <?php _e('sqm', 'viabosted'); ?></span>
                         </div>
                       <?php endif; ?>
                       <?php
@@ -134,7 +266,7 @@
 
                             if (!empty($types) && !is_wp_error($types)) :?>
                                 <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon4.svg" width="20" height="20" alt="Type">
-                                <span><strong>Type:</strong>
+                                <span><strong><?php _e('Type:', 'viabosted'); ?></strong>
                                 
                                 <?php $type_links = array();
 
@@ -150,15 +282,39 @@
 
                             <?php if ($property_price): ?>
                               <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon5.svg" width="20" height="20"
-                                alt="Charge"><span><strong>Charge:</strong> $<?php echo esc_html($property_price); ?></span>
+                                alt="Charge"><span><strong><?php _e('Charge:', 'viabosted'); ?></strong> $<?php echo esc_html($property_price); ?></span>
                               </div>
                             <?php endif; ?>
                             <?php if ($floor): ?>
                               <div class="pd-detail-card"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon6.svg" width="20" height="20" alt="Floor">
-                                <span><strong>Floor:</strong> <?php echo esc_html($floor); ?></span>
+                                <span><strong><?php _e('Floor:', 'viabosted'); ?></strong> <?php echo esc_html($floor); ?></span>
                               </div>
                             <?php endif; ?>
                     </div>
+                  </div>
+
+                  <div>
+                    <?php
+                    
+   $types = get_the_terms(get_the_ID(), 'sold-period');
+                              
+
+                              if (!empty($types)) :?>
+                                <div class="sold-period">
+                              
+                                <p><strong><?php _e('Sold Within:', 'viabosted'); ?></strong>
+                                
+                                <?php $type_links = array();
+
+                                foreach ($types as $type) {
+                                    $type_links[] = esc_html($type->name);
+                                }
+
+                                echo implode(', ', $type_links);
+
+                                echo '  </p></div>';
+                            endif;
+                            ?>
                   </div>
 
                 </div>
@@ -224,20 +380,20 @@
                 
                   <!-- Description -->
                   <p class="ac-text">
-                    Send a message to the advertiser to ask questions.
+                    <?php _e('Send a message to the advertiser to ask questions.', 'viabosted'); ?>
                   </p>
                 
                   <!-- Button -->
                   <div class="ac-button-wrap">
                     <a href="#" class="primary_btn icon arrow" data-bs-toggle="modal" data-bs-target="#agentModal">
-                      Contact Broker
+                      <?php _e('Contact Broker', 'viabosted'); ?>
                     </a>
                   </div>
                 
                   <div class="ac-divider"></div>
                 
                   <!-- Interested -->
-                  <h4 class="ac-interest-title">Interested?</h4>
+                  <h4 class="ac-interest-title"><?php _e('Interested?', 'viabosted'); ?></h4>
                       <?php
                       $property_id = get_the_ID();
                       $is_saved = is_property_saved($property_id);
@@ -257,10 +413,49 @@
 
                                   <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"/>
                               </svg>
-                            <span class="button_text"><?php echo $is_saved ? 'Saved' : 'Save Property'; ?></span>
+                            <span class="button_text"><?php echo $is_saved ? __('Saved', 'viabosted') : __('Save Property', 'viabosted'); ?></span>
                       </button>
-                                    
-                                            
+
+
+                      <div class="ac-divider"></div>
+                        
+                      <form id="add_to_cart_product">
+                        <h4 class="ac-interest-title"><?php _e('Buy Property', 'viabosted'); ?></h4> 
+                        
+                        <?php $globalPurchaseProduct = get_field('proudct_for_purchuse','option'); 
+                        
+                              
+                        ?>
+
+                        <input type="hidden" name="property-id" value="<?php echo $property_id; ?>">   
+                        <input type="hidden" name="product-id" value="<?php echo $globalPurchaseProduct; ?>">   
+
+                          <button type="submit" class="buy_property primary_btn">
+                                <span class="button_text"><?php echo __('Buy Now', 'viabosted')?></span>
+                          </button>   
+                      
+                      </form>
+
+
+                 <?php
+
+                    $current_user_id = get_current_user_id();
+                    $post_author_id  = get_the_author_meta('ID'); // inside single post
+
+                    // Check if admin OR author of the post
+                    if ( current_user_can('administrator') || $current_user_id == $post_author_id ) {?>
+
+                       <div class="ac-divider"></div>
+
+
+                       <a class="buy_property primary_btn" href="<?php echo home_url('/edit-property/?property_id='.get_the_ID());?>">
+                                <span class="button_text"><?php echo __('Edit  Property', 'viabosted')?></span>
+                  </a>   
+                      
+
+
+
+                  <?php } ?>
                 
                 </div>
              
@@ -332,17 +527,8 @@
                   <?php endif; ?>
                 </div>
                                   
-              
-             
-                  <?php 
+                  <?php $phoneNo = get_user_meta( $author_id, 'phone', true ); ?>
 
-
-                  $phoneNo = get_user_meta( $author_id, 'phone', true );
-                  
-                  
-                  
-                  
-                  ?>
                   <div class="btns_wrapper">
                     <a href="tel:+<?php echo preg_replace('/[^0-9]/', '', $phoneNo);?>"><i class="fas fa-phone-alt"></i><?php echo $phoneNo; ?></a>
                     <a href="mailto:<?php echo $author->user_email;?>"><i class="fas fa-envelope"></i><?php echo  $author->user_email;?></a>
@@ -434,6 +620,8 @@
               initMap( $(this) );
           });
       });
+
+
 
   });
 </script>
