@@ -136,6 +136,7 @@ function home_search_two_callback() {
                 
                     </div>
                   </div>
+                  <input type="hidden" name="sold_property_listing" value="yes">
                   <input type="hidden" name="action" value="home_search_form_one">
                   <div class="submit_wrapper">
                     <input type="submit" value="Find homes for sale">
