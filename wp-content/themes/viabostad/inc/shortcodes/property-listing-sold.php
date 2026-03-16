@@ -1,11 +1,11 @@
 <?php
 // Register shortcode
 add_action( 'init', function () {
-    add_shortcode( 'property-listing-sold', 'property_listing_callback' );
+    add_shortcode( 'property-listing-sold', 'property_sold_listing_callback' );
 });
 
 // Shortcode callback
-function property_listing_callback() {
+function property_sold_listing_callback() {
     ob_start();
     ?>
     
