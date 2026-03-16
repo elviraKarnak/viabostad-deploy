@@ -222,7 +222,7 @@ if(empty($propertyId)){?>
                       <div class="form-section sold-sec">
                         <h3 class="section-title">Sale Status</h3>
 
-                        <div class="d-flex  gap-3 align-items-center">
+                        <div class="d-flex  gap-3 align-items-center justify-content-between">
                         <div class="form-group">
                             <label>
                                 <input type="checkbox" id="mark_as_sold" name="mark_as_sold" value="yes" <?php checked($is_sold, 'yes'); ?>>
