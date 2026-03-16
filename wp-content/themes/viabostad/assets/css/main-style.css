@@ -4815,3 +4815,16 @@ body.error404 .textbox a:hover {
 	background: #fff !important;
 	border-radius: 3px;
 }
+
+.sold-sec .form-group label {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+}
+ 
+.sold-sec .form-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
