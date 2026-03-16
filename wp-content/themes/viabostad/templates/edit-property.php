@@ -197,7 +197,7 @@ if(empty($propertyId)){?>
                         <div class="categories-grid">
                             <?php foreach ( $terms as $term ) { ?>
                                 <div class="category-item">
-                                    <input type="checkbox" id="<?php echo $term->slug; ?>" name="propertytype[]" value="<?php echo $term->term_id; ?>"
+                                    <input type="checkbox" class="w-auto" id="<?php echo $term->slug; ?>" name="propertytype[]" value="<?php echo $term->term_id; ?>"
                                     <?php echo in_array($term->term_id, $selected_property_types) ? 'checked' : ''; ?>
                                     
                                     >
@@ -222,8 +222,9 @@ if(empty($propertyId)){?>
                       <div class="form-section">
                         <h3 class="section-title">Sale Status</h3>
 
+                        <div class="d-flex">
                         <div class="form-group">
-                            <label style="display:flex;align-items:center;gap:10px;">
+                            <label>
                                 <input type="checkbox" id="mark_as_sold" name="mark_as_sold" value="yes" <?php checked($is_sold, 'yes'); ?>>
                                 <span>Mark as Sold</span>
                             </label>
@@ -239,6 +240,7 @@ if(empty($propertyId)){?>
                                 <?php echo ($is_sold === 'yes') ? 'required' : ''; ?>
                                 max="<?php echo esc_attr(current_time('Y-m-d')); ?>"
                             >
+                        </div>
                         </div>
                     </div>
 
