@@ -113,6 +113,7 @@ require get_template_directory() . '/inc/bp-notifications.php';
 
 // shortcodes
 require get_template_directory() . '/inc/shortcodes/property-listing.php';
+require get_template_directory() . '/inc/shortcodes/property-listing-sold.php';
 require get_template_directory() . '/inc/shortcodes/home-search.php';
 
 
