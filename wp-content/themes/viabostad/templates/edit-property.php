@@ -209,32 +209,32 @@ if(empty($propertyId)){?>
                     </div>
 
                           <!-- Categories -->
-                <div class="form-section">
-                    <h3 class="section-title">Sold Within</h3>
+                <!-- <div class="form-section">
+                    <h3 class="section-title">Sold Within</h3> -->
 
                      <?php
 
-                     $selected_sold_period = wp_get_post_terms($propertyId, 'sold-period', ['fields' => 'ids']);
-                     $selected_sold_period = !empty($selected_sold_period) ? $selected_sold_period[0] : '';
+                    //  $selected_sold_period = wp_get_post_terms($propertyId, 'sold-period', ['fields' => 'ids']);
+                    //  $selected_sold_period = !empty($selected_sold_period) ? $selected_sold_period[0] : '';
 
-                        $terms = get_terms([
-                            'taxonomy'   => 'sold-period',
-                            'hide_empty' => true, // set false if you want empty terms too
-                        ]);
+                        // $terms = get_terms([
+                        //     'taxonomy'   => 'sold-period',
+                        //     'hide_empty' => true, // set false if you want empty terms too
+                        // ]);
 
-                    if (!empty($terms) && !is_wp_error($terms)) {?>
-                        <div class="categories-grid">
-                            <?php foreach ( $terms as $term ) { ?>
+                    //if (!empty($terms) && !is_wp_error($terms)) {?>
+                        <!-- <div class="categories-grid">
+                            <?php //foreach ( $terms as $term ) { ?>
                                 <div class="category-item">
-                                    <input type="radio" id="<?php echo $term->slug; ?>" name="soldperiod[]" value="<?php echo $term->term_id; ?>"
-                                    <?php echo ($term->term_id == $selected_sold_period) ? 'checked' : ''; ?>
+                                    <input type="radio" id="<?php //echo $term->slug; ?>" name="soldperiod[]" value="<?php //echo $term->term_id; ?>"
+                                    <?php //echo ($term->term_id == $selected_sold_period) ? 'checked' : ''; ?>
                                     >
-                                    <label for="<?php echo $term->slug; ?>"><?php echo esc_html($term->name); ?></label>
+                                    <label for="<?php //echo $term->slug; ?>"><?php// echo esc_html($term->name); ?></label>
                                 </div>
-                            <?php  } ?> 
+                            <?php  //} ?> 
                         </div>
-                        <?php } ?>
-                    </div>
+                        <?php //} ?>
+                    </div> -->
 
 
                     <input type="hidden" name="edit-property-id" value="<?php echo $propertyId; ?>">

@@ -128,26 +128,26 @@
                     </div>
 
                           <!-- Categories -->
-                <div class="form-section">
-                    <h3 class="section-title">Sold Within</h3>
+                <!-- <div class="form-section">
+                    <h3 class="section-title">Sold Within</h3> -->
 
                      <?php
-                        $terms = get_terms([
-                            'taxonomy'   => 'sold-period',
-                            'hide_empty' => true, // set false if you want empty terms too
-                        ]);
+                        // $terms = get_terms([
+                        //     'taxonomy'   => 'sold-period',
+                        //     'hide_empty' => true, // set false if you want empty terms too
+                        // ]);
 
-                    if (!empty($terms) && !is_wp_error($terms)) {?>
-                        <div class="categories-grid">
-                            <?php foreach ( $terms as $term ) { ?>
+                    //if (!empty($terms) && !is_wp_error($terms)) {?>
+                        <!-- <div class="categories-grid">
+                            <?php //foreach ( $terms as $term ) { ?>
                                 <div class="category-item">
-                                    <input type="radio" id="<?php echo $term->slug; ?>" name="soldperiod[]" value="<?php echo $term->term_id; ?>">
-                                    <label for="<?php echo $term->slug; ?>"><?php echo esc_html($term->name); ?></label>
+                                    <input type="radio" id="<?php //echo $term->slug; ?>" name="soldperiod[]" value="<?php // echo $term->term_id; ?>">
+                                    <label for="<?php //echo $term->slug; ?>"><?php // echo esc_html($term->name); ?></label>
                                 </div>
-                            <?php  } ?> 
+                            <?php  //} ?> 
                         </div>
-                        <?php } ?>
-                    </div>
+                        <?php //} ?>
+                    </div> -->
 
 
                 <!-- Form Actions -->
