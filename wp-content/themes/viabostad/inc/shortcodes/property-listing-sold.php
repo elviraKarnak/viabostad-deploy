@@ -217,14 +217,13 @@ function property_sold_listing_callback() {
                                 'order' => 'DESC',
                                 ]);
 
-                                 $args['meta_query'][] = [
-                                    'relation' => 'OR',
+                                 $args['meta_query'][] = 
                                     [
                                         'key'     => '_is_sold',
                                         'value'   => 'yes',
                                         'compare' => '='
-                                    ]
-                                ];
+                                    ];
+                                
 
                             if ( $product_query->have_posts() ) { ?>
 
