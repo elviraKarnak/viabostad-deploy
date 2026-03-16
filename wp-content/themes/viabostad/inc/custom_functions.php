@@ -666,6 +666,7 @@ function viabosted_add_dynamic_product(){
 
                 if (!empty($property_id)) {
                     update_post_meta((int) $property_id, '_is_sold', 'yes');
+                    update_post_meta((int) $property_id, '_sold_date', date('Y-m-d'));
                 }
             }
         }

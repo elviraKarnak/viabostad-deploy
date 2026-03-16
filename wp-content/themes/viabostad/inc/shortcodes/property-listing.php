@@ -146,29 +146,6 @@ function property_listing_callback() {
                                                                 </div>
                                                                 <hr>
                                                             
-                                                                <div class="field checkboxes_wrapper without_icon square">
-                                                                <p>Sold within</p>
-
-                                                                 <?php
-                                                                    $terms = get_terms([
-                                                                        'taxonomy'   => 'sold-period',
-                                                                        'hide_empty' => true, // set false if you want empty terms too
-                                                                    ]);
-                                                                    if (!empty($terms) && !is_wp_error($terms)) {?>
-                                                                        <?php foreach ( $terms as $term ) { ?>
-                                                                             <label>
-                                                                                <input type="checkbox" name="sold_period[]" value="<?php echo $term->term_id; ?>">
-                                                                                    <div class="field_text">
-                                                                                        <div class="circle"></div>
-                                                                                    <?php echo esc_html($term->name); ?>
-                                                                                    </div>
-                                                                            </label>
-                                                              
-                                                                        <?php  } ?> 
-                                                                    <?php } ?>
-                                                                </div>
-                                                    
-                                                    
                                                                 <div class="field">
                                                                 <label>
                                                                     Keyword

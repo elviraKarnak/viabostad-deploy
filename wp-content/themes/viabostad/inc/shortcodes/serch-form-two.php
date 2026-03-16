@@ -68,7 +68,7 @@ function home_search_two_callback() {
                         if (!empty($terms) && !is_wp_error($terms)) {?>
                             <?php foreach ( $terms as $term ) { ?>
                                   <label>
-                                    <input type="checkbox" name="sold_period[]" value="<?php echo $term->term_id; ?>">
+                                    <input type="checkbox" name="sold_period[]" value="<?php echo $term->slug; ?>">
                                         <div class="field_text">
                                             <div class="circle"></div>
                                         <?php echo esc_html($term->name); ?>

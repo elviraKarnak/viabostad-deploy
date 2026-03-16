@@ -604,16 +604,50 @@ function viabostad_property_template() {
         PROPERTY TYPE (Multiple Checkbox)
         =================================== */
 
-        if (!empty($_POST['sold_period'])) {
+       if (!empty($_POST['sold_period'])) {
 
-            $types = array_map('intval', $_POST['sold_period']);
+            $period_slugs = array_map('sanitize_text_field', (array) $_POST['sold_period']);
+            $today        = current_time('Y-m-d');
+            $start_dates  = [];
 
-            $args['tax_query'][] = [
-                'taxonomy' => 'sold-period',
-                'field'    => 'term_id',
-                'terms'    => $types,
-                'operator' => 'IN'
-            ];
+            foreach ($period_slugs as $slug) {
+                switch ($slug) {
+                    case '15-days':
+                        $start_dates[] = date('Y-m-d', strtotime('-15 days', strtotime($today)));
+                        break;
+
+                    case '1-months':
+                        $start_dates[] = date('Y-m-d', strtotime('-1 month', strtotime($today)));
+                        break;
+
+                    case '2-months':
+                        $start_dates[] = date('Y-m-d', strtotime('-2 months', strtotime($today)));
+                        break;
+
+                    case '3-months':
+                        $start_dates[] = date('Y-m-d', strtotime('-3 months', strtotime($today)));
+                        break;
+
+                    case '6-months':
+                        $start_dates[] = date('Y-m-d', strtotime('-6 months', strtotime($today)));
+                        break;
+
+                    default:
+                        $start_dates[] = $today;
+                        break;
+                }
+            }
+
+            if (!empty($start_dates)) {
+                $oldest_start_date = min($start_dates);
+
+                $args['meta_query'][] = [
+                    'key'     => '_sold_date',
+                    'value'   => [$oldest_start_date, $today],
+                    'compare' => 'BETWEEN',
+                    'type'    => 'DATE',
+                ];
+            }
         }
 
 
