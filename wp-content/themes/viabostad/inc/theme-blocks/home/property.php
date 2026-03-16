@@ -61,13 +61,30 @@
             <div class="tab-content" id="pills-tabContent">
 
                       <?php 
-                        $product_query = new WP_Query([
 
-                          'post_type'      => 'property',
-                          'posts_per_page' => 10,
-                          'orderby' => 'id',
-                          'order' => 'DESC',
-                      ]);
+                      $product_query = new WP_Query([
+                              'post_type'      => 'property',
+                              'posts_per_page' => 10,
+                              'paged'          => $paged,
+                              'orderby'        => 'ID',
+                              'order'          => 'DESC',
+                              'meta_query'     => [
+                                  'relation' => 'AND',
+                                  [
+                                      'relation' => 'OR',
+                                      [
+                                          'key'     => '_is_sold',
+                                          'compare' => 'NOT EXISTS'
+                                      ],
+                                      [
+                                          'key'     => '_is_sold',
+                                          'value'   => 'yes',
+                                          'compare' => '!='
+                                      ]
+                                  ]
+                              ]
+                            ]);
+                                    
 
                 if ( $product_query->have_posts() ) {
                   

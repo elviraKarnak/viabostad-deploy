@@ -15,7 +15,7 @@ function load_products_by_category() {
         'post_type'      => 'property',
         'posts_per_page' => 10,
         'orderby'        => 'ID',
-        'order'          => 'ASC',
+        'order'          => 'DESC',
         'meta_query'     => ['relation' => 'AND'],
     ];
 
