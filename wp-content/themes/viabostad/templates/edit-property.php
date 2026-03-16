@@ -209,32 +209,44 @@ if(empty($propertyId)){?>
                     </div>
 
                           <!-- Categories -->
-                <!-- <div class="form-section">
-                    <h3 class="section-title">Sold Within</h3> -->
 
-                     <?php
 
-                    //  $selected_sold_period = wp_get_post_terms($propertyId, 'sold-period', ['fields' => 'ids']);
-                    //  $selected_sold_period = !empty($selected_sold_period) ? $selected_sold_period[0] : '';
+                          <?php 
+           
+                          $is_sold   = get_post_meta($propertyId, '_is_sold', true);
+                          $sold_date = get_post_meta($propertyId, '_sold_date', true);
 
-                        // $terms = get_terms([
-                        //     'taxonomy'   => 'sold-period',
-                        //     'hide_empty' => true, // set false if you want empty terms too
-                        // ]);
 
-                    //if (!empty($terms) && !is_wp_error($terms)) {?>
-                        <!-- <div class="categories-grid">
-                            <?php //foreach ( $terms as $term ) { ?>
-                                <div class="category-item">
-                                    <input type="radio" id="<?php //echo $term->slug; ?>" name="soldperiod[]" value="<?php //echo $term->term_id; ?>"
-                                    <?php //echo ($term->term_id == $selected_sold_period) ? 'checked' : ''; ?>
-                                    >
-                                    <label for="<?php //echo $term->slug; ?>"><?php// echo esc_html($term->name); ?></label>
-                                </div>
-                            <?php  //} ?> 
+                            ?>
+
+                      <div class="form-section">
+                        <h3 class="section-title">Sale Status</h3>
+
+                        <div class="form-group">
+                            <label style="display:flex;align-items:center;gap:10px;">
+                                <input type="checkbox" id="mark_as_sold" name="mark_as_sold" value="yes" <?php checked($is_sold, 'yes'); ?>>
+                                <span>Mark as Sold</span>
+                            </label>
                         </div>
-                        <?php //} ?>
-                    </div> -->
+
+                        <div class="form-group" id="sold_date_wrap" style="<?php echo ($is_sold === 'yes') ? '' : 'display:none;'; ?>">
+                            <label for="sold_date">Sold Date <span class="required">*</span></label>
+                            <input 
+                                type="date" 
+                                id="sold_date" 
+                                name="sold_date" 
+                                value="<?php echo esc_attr($sold_date); ?>"
+                                <?php echo ($is_sold === 'yes') ? 'required' : ''; ?>
+                                max="<?php echo esc_attr(current_time('Y-m-d')); ?>"
+                            >
+                        </div>
+                    </div>
+
+
+                   
+
+                    
+                  
 
 
                     <input type="hidden" name="edit-property-id" value="<?php echo $propertyId; ?>">
@@ -255,6 +267,25 @@ if(empty($propertyId)){?>
 
 <script>
     jQuery(document).ready(function ($) {
+
+
+        function toggleSoldDateField() {
+            if ($('#mark_as_sold').is(':checked')) {
+                $('#sold_date_wrap').show();
+                $('#sold_date').prop('required', true);
+            } else {
+                $('#sold_date_wrap').hide();
+                $('#sold_date').prop('required', false).val('');
+            }
+        }
+
+        toggleSoldDateField();
+
+        $('#mark_as_sold').on('change', function () {
+            toggleSoldDateField();
+        });
+
+
 
             // INIT GOOGLE AUTOCOMPLETE PROPERLY
             function initAutocomplete() {

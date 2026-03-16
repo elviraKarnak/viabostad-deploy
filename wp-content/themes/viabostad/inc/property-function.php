@@ -287,6 +287,24 @@ function handle_ajax_property_submission() {
             }
         }
 
+           
+            $mark_as_sold  = !empty($_POST['mark_as_sold']) && $_POST['mark_as_sold'] === 'yes' ? 'yes' : '';
+            $sold_date     = !empty($_POST['sold_date']) ? sanitize_text_field($_POST['sold_date']) : '';
+
+            if ($mark_as_sold === 'yes' && empty($sold_date)) {
+                wp_send_json_error([
+                    'message' => 'Sold date is required when property is marked as sold.'
+                ]);
+            }
+
+            if ($mark_as_sold === 'yes') {
+                update_post_meta($property_id, '_is_sold', 'yes');
+                update_post_meta($property_id, '_sold_date', $sold_date);
+            } else {
+                delete_post_meta($property_id, '_is_sold');
+                delete_post_meta($property_id, '_sold_date');
+            }
+
     }else{
     
         /*--------------------------------
