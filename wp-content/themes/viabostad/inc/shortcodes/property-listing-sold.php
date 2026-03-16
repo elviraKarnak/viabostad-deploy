@@ -1,7 +1,7 @@
 <?php
 // Register shortcode
 add_action( 'init', function () {
-    add_shortcode( 'property-listing', 'property_listing_callback' );
+    add_shortcode( 'property-listing-sold', 'property_listing_callback' );
 });
 
 // Shortcode callback
@@ -179,7 +179,7 @@ function property_listing_callback() {
                                                                     />
                                                                 </label>
                                                                 </div>
-                                                                    
+                                                                    <input type="hidden" name="sold_property_listing" value="yes">
                                                         
                                                                 <div class="submit_wrapper">
                                                                 <input
@@ -216,19 +216,16 @@ function property_listing_callback() {
                                 'orderby' => 'id',
                                 'order' => 'DESC',
                                 ]);
-                                
+
                                  $args['meta_query'][] = [
                                     'relation' => 'OR',
                                     [
                                         'key'     => '_is_sold',
-                                        'compare' => 'NOT EXISTS'
-                                    ],
-                                    [
-                                        'key'     => '_is_sold',
                                         'value'   => 'yes',
-                                        'compare' => '!='
+                                        'compare' => '='
                                     ]
                                 ];
+
                             if ( $product_query->have_posts() ) { ?>
 
 							<div class="total_found_products">

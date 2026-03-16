@@ -508,7 +508,6 @@ function viabostad_property_template() {
 
 }
 
-
         // add_action('wp_ajax_home_search_form_one', 'home_search_form_one_cb');
         // add_action('wp_ajax_nopriv_home_search_form_one', 'home_search_form_one_cb');
 
@@ -527,7 +526,8 @@ function viabostad_property_template() {
 
       $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
 
-      
+
+      $isSoldListing = (isset($_POST['sold_property_listing']) && $_POST['sold_property_listing'] === 'yes') ? true : false;
 
         $args = [
             'post_type'      => 'property',
@@ -544,19 +544,36 @@ function viabostad_property_template() {
         PROPERTY Keyword Search (in description)
         =================================== */
 
+
+        if($isSoldListing){
+
             $args['meta_query'][] = [
                 'relation' => 'OR',
-                [
-                    'key'     => '_is_sold',
-                    'compare' => 'NOT EXISTS'
-                ],
+
                 [
                     'key'     => '_is_sold',
                     'value'   => 'yes',
-                    'compare' => '!='
+                    'compare' => '='
                 ]
             ];
 
+
+        }else{
+
+            $args['meta_query'][] = [
+                    'relation' => 'OR',
+                    [
+                        'key'     => '_is_sold',
+                        'compare' => 'NOT EXISTS'
+                    ],
+                    [
+                        'key'     => '_is_sold',
+                        'value'   => 'yes',
+                        'compare' => '!='
+                    ]
+                ];
+
+        }
 
         if (!empty($keyword)) {
 
