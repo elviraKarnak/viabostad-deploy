@@ -211,19 +211,18 @@ function property_sold_listing_callback() {
                                $product_query = new WP_Query([
                                 'post_type'      => 'property',
                                 'posts_per_page' => 10,
-                                'paged' => $paged,
-                                'meta_query'     => ['relation' => 'AND'],
-                                'orderby' => 'id',
-                                'order' => 'DESC',
-                                ]);
-
-                                 $args['meta_query'][] = 
+                                'paged'          => $paged,
+                                'orderby'        => 'ID',
+                                'order'          => 'DESC',
+                                'meta_query'     => [
                                     [
                                         'key'     => '_is_sold',
                                         'value'   => 'yes',
                                         'compare' => '='
-                                    ];
-                                
+                                    ]
+                                ]
+                            ]);
+                                                            
 
                             if ( $product_query->have_posts() ) { ?>
 

@@ -153,8 +153,6 @@ $elvlink = get_field('elvira_link_via','option');
       </div>
     </footer>
     
-
- 
 <?php wp_footer(); ?>
 
 </body>
