@@ -469,7 +469,7 @@ if( function_exists('acf_add_options_page') ) {
 
 
    add_action('wp_ajax_viabosted_add_dynamic_product', 'viabosted_add_dynamic_product');
-add_action('wp_ajax_nopriv_viabosted_add_dynamic_product', 'viabosted_add_dynamic_product');
+   add_action('wp_ajax_nopriv_viabosted_add_dynamic_product', 'viabosted_add_dynamic_product');
 
 function viabosted_add_dynamic_product(){
 
@@ -591,9 +591,8 @@ function viabosted_add_dynamic_product(){
 
             // Save clean meta
             $item->add_meta_data('Location', $property['location'], true);
-            $item->add_meta_data('Property ID', $property['id'], true);
+            $item->add_meta_data('Property-ID', $property['id'], true);
             $item->add_meta_data('Image', $property['image'], true);
-
         }
 
     }, 20, 4);
@@ -646,6 +645,30 @@ function viabosted_add_dynamic_product(){
         }
 
     });
+
+
+        add_action('woocommerce_order_status_processing', 'update_property_sold_status_from_order');
+        add_action('woocommerce_order_status_completed', 'update_property_sold_status_from_order');
+
+        function update_property_sold_status_from_order($order_id) {
+            if (!$order_id) {
+                return;
+            }
+
+            $order = wc_get_order($order_id);
+
+            if (!$order) {
+                return;
+            }
+
+            foreach ($order->get_items() as $item) {
+                $property_id = $item->get_meta('Property-ID');
+
+                if (!empty($property_id)) {
+                    update_post_meta((int) $property_id, '_is_sold', 'yes');
+                }
+            }
+        }
 
 
     add_action('wp_logout', function() {
