@@ -236,7 +236,7 @@ function home_search_two_callback() {
                   
                     localStorage.setItem('formData', formData);
 
-                    window.location.href = '/housing/?searchproperty'; // Redirect to the property listing page with form data as query parameters
+                    window.location.href = '/final-prices/?searchproperty'; // Redirect to the property listing page with form data as query parameters
 
               });
             });
