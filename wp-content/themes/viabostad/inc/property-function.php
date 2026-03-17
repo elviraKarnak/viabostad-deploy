@@ -510,7 +510,7 @@ function viabostad_dynamic_menu_links($items, $args) {
                 $user = wp_get_current_user();
 
                 // Logged-in URL (BuddyPress profile)
-                $item->url = bp_core_get_user_domain($s->ID) . 'add-property/';
+                $item->url = bp_core_get_user_domain($user->ID) . 'add-property/';
 
             } else {
 
