@@ -16,7 +16,6 @@ add_action('after_setup_theme', function() {
 });
 
 
-
 function viabosted_enqueue(){
 
 	$uri = get_theme_file_uri();

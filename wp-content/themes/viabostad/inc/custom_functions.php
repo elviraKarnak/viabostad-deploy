@@ -324,9 +324,6 @@ if( function_exists('acf_add_options_page') ) {
         $keyword = isset($_POST['keyword']) ? sanitize_text_field($_POST['keyword']) : '';
         $agency  = isset($_POST['agency']) ? sanitize_text_field($_POST['agency']) : '';
 
-
-
-
                 $args = [
                     'post_type'      => 'broker',
                     'posts_per_page' => -1,

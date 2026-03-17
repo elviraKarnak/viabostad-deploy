@@ -507,6 +507,7 @@ function viabostad_add_property_tab() {
         'screen_function'     => 'viabostad_property_screen',
         'default_subnav_slug' => 'property',
         'position'            => 40,
+        'visitor' => true,
     ]);
 }
 add_action('bp_setup_nav', 'viabostad_add_property_tab');
