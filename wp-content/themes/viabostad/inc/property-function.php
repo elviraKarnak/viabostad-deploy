@@ -496,6 +496,37 @@ function viabostad_properties_content() {
 }
 
 
+add_filter('wp_nav_menu_objects', 'viabostad_dynamic_menu_links', 10, 2);
+
+function viabostad_dynamic_menu_links($items, $args) {
+
+    foreach ($items as $item) {
+
+        // Match menu item by title OR ID
+        if ($item->title === 'Create Property') {
+
+            if (is_user_logged_in()) {
+
+                $user = wp_get_current_user();
+
+                // Logged-in URL (BuddyPress profile)
+                $item->url = home_url('/members/' . $user->user_login . '/add-property/');
+
+            } else {
+
+                // Logged-out URL (redirect to login or main page)
+                $item->url = wp_login_url(home_url('/add-property/'));
+
+                // OR if you want normal page instead:
+                // $item->url = home_url('/add-property/');
+            }
+        }
+    }
+
+    return $items;
+}
+
+
 /**
  * Add "Property" tab in BuddyPress profile
  */
