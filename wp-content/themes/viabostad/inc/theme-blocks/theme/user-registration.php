@@ -111,8 +111,8 @@
 
                     <div class="form-group">
                         <label for="bio"><?php _e('Profile Description / Bio', 'viabosted'); ?> <span class="required">*</span></label>
-                        <textarea id="bio" name="bio" required  minlength="100" placeholder="Tell us about your experience, expertise, and what makes you a great broker..."></textarea>
-                        <div class="help-text"><?php _e('Minimum 100 characters', 'viabosted'); ?></div>
+                        <textarea id="bio" name="bio" required  placeholder="Tell us about your experience, expertise, and what makes you a great broker..."></textarea>
+                        <!-- <div class="help-text"><?php //_e('Minimum 100 characters', 'viabosted'); ?></div> -->
                     </div>
                     </div>
 
