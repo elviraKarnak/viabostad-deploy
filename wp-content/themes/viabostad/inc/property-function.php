@@ -515,7 +515,7 @@ function viabostad_dynamic_menu_links($items, $args) {
             } else {
 
                 // Logged-out URL (redirect to login or main page)
-                $item->url = wp_login_url(home_url('/add-property/'));
+                $item->url =home_url('/log-in/');
 
                 // OR if you want normal page instead:
                 // $item->url = home_url('/add-property/');
