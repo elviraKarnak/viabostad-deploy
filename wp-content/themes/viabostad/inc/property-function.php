@@ -503,7 +503,7 @@ function viabostad_dynamic_menu_links($items, $args) {
     foreach ($items as $item) {
 
         // Match menu item by title OR ID
-        if ($item->title === 'Create Property') {
+        if ($item->title === 'List Your Property') {
 
             if (is_user_logged_in()) {
 
